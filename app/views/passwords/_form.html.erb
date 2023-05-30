@@ -1,0 +1,31 @@
+<%= form_with model: password do |form| %>
+  <% if form.object.errors.any? %>
+    <% form.object.errors.full_messages.each do |message| %>
+      <div>
+        <%= message %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div>
+    <%= form.label :url %>
+    <%= form.url_field :url %>
+  </div>
+
+  <div>
+    <%= form.label :username %>
+    <%= form.text_field :username %>
+  </div>
+
+  <div>
+    <%= form.label :password %>
+    <%= form.text_field :password %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+    <%= button_tag "Delete", form: "delete_password" %>
+  </div>
+<% end %>
+
+<%= form_with model: password, method: :delete, id: "delete_password", data: {turbo_confirm: "Are you sure?"} %>

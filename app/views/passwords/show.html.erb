@@ -1,0 +1,22 @@
+<div class="mb-4 flex justify-between items-center">
+  <h1 class="mb-0">
+    <%= @password.url %>
+    <%= link_to @password.url, target: :_blank do %>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline-block text-blue-500 w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+      </svg>
+    <% end %>
+  </h1>
+  <%= link_to "Edit", edit_password_path %>
+</div>
+
+<h6>Username / Email</h6>
+<div class="flex items-center gap-1">
+  <pre class="my-0 flex-grow"><code><%= @password.username %></code></pre>
+  <%= button_tag "Copy", class: "px-5 py-2.5 bg-gray-200 rounded", data: { controller: "clipboard", action: "click->clipboard#copy", clipboard_content_value: @password.username } %>
+</div>
+<h6>Password</h6>
+<div class="flex items-center gap-1">
+  <pre class="my-0 flex-grow"><code><%= @password.password %></code></pre>
+  <%= button_tag "Copy", class: "px-5 py-2.5 bg-gray-200 rounded", data: { controller: "clipboard", action: "click->clipboard#copy", clipboard_content_value: @password.password } %>
+</div>

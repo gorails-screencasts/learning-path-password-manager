@@ -1,0 +1,15 @@
+<%= form_with model: user_password, url: password_shares_path(password) do |form| %>
+  <div>
+    <%= form.label :user_id %>
+    <%= form.collection_select :user_id, password.shareable_users, :id, :email %>
+  </div>
+
+  <div>
+    <%= form.label :role %>
+    <%= form.select :role, UserPassword::ROLES.map{ |r| [r.titleize, r] } %>
+  </div>
+
+  <div>
+    <%= form.submit "Share" %>
+  </div>
+<% end %>

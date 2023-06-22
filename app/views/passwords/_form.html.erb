@@ -19,7 +19,10 @@
 
   <div class="field">
     <%= form.label :password %>
-    <%= form.text_field :password %>
+    <div data-controller="password-field" class="flex items-center gap-2">
+      <%= form.password_field :password, data: {password_field_target: "field"} %>
+      <%= link_to "Show", "#", data: {action: "password-field#toggle:prevent"} %>
+    </div>
   </div>
 
   <div class="field">

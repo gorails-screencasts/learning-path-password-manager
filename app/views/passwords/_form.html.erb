@@ -1,34 +1,79 @@
-<%= form_with model: password do |form| %>
-  <% if form.object.errors.any? %>
-    <% form.object.errors.full_messages.each do |message| %>
-      <div>
-        <%= message %>
+<div class="flex gap-8" data-controller="password-generator">
+  <div>
+    <%= form_with model: password do |form| %>
+      <% if form.object.errors.any? %>
+        <% form.object.errors.full_messages.each do |message| %>
+          <div>
+            <%= message %>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div class="field">
+        <%= form.label :url %>
+        <%= form.url_field :url %>
+      </div>
+
+      <div class="field">
+        <%= form.label :username %>
+        <%= form.text_field :username %>
+      </div>
+
+      <div class="field">
+        <%= form.label :password %>
+        <div data-controller="password-field" class="flex items-center gap-2">
+          <%= form.password_field :password, data: {password_field_target: "field", password_generator_target: "field"} %>
+          <%= link_to "Show", "#", data: {action: "password-field#toggle:prevent"} %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= form.submit %>
+        <%= button_tag "Delete", form: "delete_password" if form.object.persisted? && current_user_password.deletable? %>
       </div>
     <% end %>
-  <% end %>
 
-  <div class="field">
-    <%= form.label :url %>
-    <%= form.url_field :url %>
+    <%= form_with model: password, method: :delete, id: "delete_password", data: {turbo_confirm: "Are you sure?"} %>
   </div>
 
-  <div class="field">
-    <%= form.label :username %>
-    <%= form.text_field :username %>
-  </div>
+  <div class="bg-gray-100 rounded-lg p-8">
+    <h4 class="mt-0">Generate Password</h4>
 
-  <div class="field">
-    <%= form.label :password %>
-    <div data-controller="password-field" class="flex items-center gap-2">
-      <%= form.password_field :password, data: {password_field_target: "field"} %>
-      <%= link_to "Show", "#", data: {action: "password-field#toggle:prevent"} %>
+    <div class="flex gap-1 items-center">
+      <label>Length</label>
+      <input data-password-generator-target="length" type="number" max="100" min="1" data-action="password-generator#lengthUpdated" />
+    </div>
+
+    <div class="flex gap-1 items-center">
+      <label>
+        <input type="checkbox" data-password-generator-target="lowercase" data-action="password-generator#lowercaseUpdated" />
+        Lowercase Letters (abc)
+      </label>
+    </div>
+
+    <div class="flex gap-1 items-center">
+      <label>
+        <input type="checkbox" data-password-generator-target="uppercase" data-action="password-generator#uppercaseUpdated" />
+        Uppercase Letters (ABC)
+      </label>
+    </div>
+
+    <div class="flex gap-1 items-center">
+      <label>
+        <input type="checkbox" data-password-generator-target="numbers" data-action="password-generator#numbersUpdated" />
+        Numbers (123)
+      </label>
+    </div>
+
+    <div class="flex gap-1 items-center">
+      <label>
+        <input type="checkbox" data-password-generator-target="specialchars" data-action="password-generator#specialcharsUpdated" />
+        Special Characters (!@#)
+      </label>
+    </div>
+
+    <div class="mt-4">
+      <button data-action="password-generator#generate:prevent" class="block w-full rounded bg-gray-700 text-gray-100 font-medium px-2.5 py-1">Generate</button>
     </div>
   </div>
-
-  <div class="field">
-    <%= form.submit %>
-    <%= button_tag "Delete", form: "delete_password" if form.object.persisted? && current_user_password.deletable? %>
-  </div>
-<% end %>
-
-<%= form_with model: password, method: :delete, id: "delete_password", data: {turbo_confirm: "Are you sure?"} %>
+</div>
